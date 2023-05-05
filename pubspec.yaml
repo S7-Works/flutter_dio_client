@@ -1,6 +1,6 @@
 name: dio_clients
-description: A new Flutter package project.
-version: 0.0.1
+description: A flutter package to add a dio client.
+version: 0.0.2
 homepage:
 
 environment:

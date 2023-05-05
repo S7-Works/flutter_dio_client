@@ -25,7 +25,7 @@ class GetUser extends StateNotifier<List<User>> {
     List<User> users = [];
 
     Response? res;
-    res = await dioClient.get(myUrl);
+    res = await dioClient.get(myUrl,);
 
     final List list = res.data;
 

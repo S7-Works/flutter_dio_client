@@ -45,8 +45,29 @@ class DioClientAuthorization {
         ));
   }
 
+  Future<Response> getWithPARAMS(String path,
+      {required String authorization,
+      required Map<String, String> queryParameters}) async {
+    return await dio.get(
+      path,
+      options: Options(
+        headers: {
+          'Content-type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': authorization,
+        },
+        followRedirects: false,
+        validateStatus: (status) {
+          return status! < 500;
+        },
+      ),
+      queryParameters: queryParameters,
+    );
+  }
+
   Future<Response> post(String path,
-      {required Map<String, dynamic> data, required String authorization}) async {
+      {required Map<String, dynamic> data,
+      required String authorization}) async {
     return await dio.post(path,
         data: data,
         options: Options(

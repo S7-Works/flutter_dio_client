@@ -15,34 +15,50 @@ class DioClientNoAuthorization {
     dio.interceptors.add(Logging());
     dio.interceptors.add(PrettyDioLogger());
     dio.interceptors.add(
-    RetryInterceptor(
-      dio: dio,
-      logPrint: debugPrint, // specify log function (optional)
-      retries: 4, // retry count (optional)
-      retryDelays: const [
-        // set delays between retries (optional)
-        Duration(seconds: 1), // wait 1 sec before the first retry
-        Duration(seconds: 2), // wait 2 sec before the second retry
-        Duration(seconds: 3), // wait 3 sec before the third retry
-        Duration(seconds: 4), // wait 4 sec before the fourth retry
-      ],
-    ),
-  );
+      RetryInterceptor(
+        dio: dio,
+        logPrint: debugPrint, // specify log function (optional)
+        retries: 4, // retry count (optional)
+        retryDelays: const [
+          // set delays between retries (optional)
+          Duration(seconds: 1), // wait 1 sec before the first retry
+          Duration(seconds: 2), // wait 2 sec before the second retry
+          Duration(seconds: 3), // wait 3 sec before the third retry
+          Duration(seconds: 4), // wait 4 sec before the fourth retry
+        ],
+      ),
+    );
   }
 
-  Future<Response> get(String path) async {
+  Future<Response> get(String path ) async {
     return await dio.get(path,
         options: Options(
           headers: {
             'Content-type': 'application/json',
             'Accept': 'application/json',
-            // 'Authorization': auth,
           },
           followRedirects: false,
           validateStatus: (status) {
             return status! < 500;
           },
         ));
+  }
+
+  Future<Response> getWithPARAMS(String path,{required Map<String, String> queryParameters}) async {
+    return await dio.get(
+      path,
+      options: Options(
+        headers: {
+          'Content-type': 'application/json',
+          'Accept': 'application/json',
+        },
+        followRedirects: false,
+        validateStatus: (status) {
+          return status! < 500;
+        },
+      ),
+      queryParameters: queryParameters,
+    );
   }
 
   Future<Response> post(String path,
@@ -53,7 +69,6 @@ class DioClientNoAuthorization {
           headers: {
             'Content-type': 'application/json',
             'Accept': 'application/json',
-            // 'Authorization': auth,
           },
           followRedirects: false,
           validateStatus: (status) {
@@ -69,7 +84,6 @@ class DioClientNoAuthorization {
           headers: {
             'Content-type': 'application/json',
             'Accept': 'application/json',
-            // 'Authorization': auth,
           },
           followRedirects: false,
           validateStatus: (status) {
