@@ -11,29 +11,63 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages).
 -->
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+This package is used to include a dio client in the application.
 
-## Features
+<!-- ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+TODO: List what your package can do. Maybe include images, gifs, or videos. -->
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+Include the package in ```pubspec.yaml``` 
+```dart
+ dio_clients:
+    git:
+     url: https://github.com/S7-Works/flutter_dio_client.git
+     ref: main
+ ```    
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
+ Check longer examples
 to `/example` folder.
 
 ```dart
-const like = 'sample';
+ fetchUsers() async {
+    final myUrl = Constants.baseUrl;
+
+    var dioClient = DioClientNoAuthorization(myUrl);
+
+    read(userProviderLoader.notifier).state = true;
+    List<User> users = [];
+
+    Response? res;
+    res = await dioClient.get(myUrl);
+
+    final List list = res.data;
+
+    users = list.map((e) => User.fromJson(e)).toList();
+    state = users;
+    read(userProviderLoader.notifier).state = false;
+  }
+```
+```dart
+ fetchUsers() async {
+    final myUrl = Constants.baseUrl;
+
+    var dioClient = DioClientAuthorization(myUrl,authorization: "<add uthorization here>");
+//   var dioClient = DioClientAuthorization(myUrl,authorization: "Basic sssssssssssssssssssssssssssssssssssss");
+    read(userProviderLoader.notifier).state = true;
+    List<User> users = [];
+
+    Response? res;
+    res = await dioClient.get(myUrl);
+
+    final List list = res.data;
+
+    users = list.map((e) => User.fromJson(e)).toList();
+    state = users;
+    read(userProviderLoader.notifier).state = false;
+  }
 ```
 
-## Additional information
-
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.

@@ -16,7 +16,7 @@ class GetCompanies extends StateNotifier<List<CompanyData>> {
 
   fetchCompanies(String value) async {
     final searchUrl = "${Constants.searchUrl}?query=$value";
-    var dioClient = DioClientAuthorization(searchUrl);
+    var dioClient = DioClientNoAuthorization(searchUrl);
 
     List<CompanyData> users = [];
 

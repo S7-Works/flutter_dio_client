@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:dio_clients/dio_clients.dart';
 import 'package:example/model/user.dart';
 import 'package:example/utils/constants.dart';
-
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final userProviderLoader = StateProvider((ref) => false);
@@ -20,7 +19,7 @@ class GetUser extends StateNotifier<List<User>> {
   fetchUsers() async {
     final myUrl = Constants.baseUrl;
 
-    var dioClient = DioClientAuthorization(myUrl);
+    var dioClient = DioClientNoAuthorization(myUrl);
 
     read(userProviderLoader.notifier).state = true;
     List<User> users = [];
