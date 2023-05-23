@@ -19,8 +19,9 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.19.6 <3.0.0'
 
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.10.0"
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
 # consider running `flutter pub upgrade --major-versions`. Alternatively,
@@ -34,23 +35,22 @@ dependencies:
   dio_clients:
     path: ../
   # can be  removed, just used to create an example.
-  simple_url_preview:
-    git:
-      url: https://github.com/markarik/urlView/
+ 
   json_annotation: ^4.4.0
-  freezed_annotation: ^1.1.0
+  freezed_annotation: ^2.2.0
+  any_link_preview: ^3.0.0
 
 
 
   # main packages that we use most frequently
 
-  cupertino_icons: ^1.0.2
-  hooks_riverpod: ^1.0.2
-  flutter_hooks: ^0.18.1
-  flutter_screenutil: ^5.7.0
+  cupertino_icons: ^1.0.5
+  hooks_riverpod: ^2.3.6
+  flutter_hooks: ^0.18.6
+  flutter_screenutil: ^5.8.2
   logger: ^1.3.0
-  get_it: ^7.2.0
-  dio: ^5.1.1
+  get_it: ^7.6.0
+  dio: ^5.1.2
 
 
 
@@ -64,7 +64,7 @@ dev_dependencies:
 
   # can be  removed, just used to create an example.
 
-  freezed: ^1.1.0
+  freezed: ^2.3.4
   build_runner: ^2.1.5
   json_serializable: ^6.3.1
 
