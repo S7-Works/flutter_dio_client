@@ -1,4 +1,4 @@
-
+import 'package:example/utils/flavor_config.dart';
 import 'package:example/utils/routes/routes.dart';
 import 'package:example/utils/routes/service/locator.dart';
 import 'package:example/utils/routes/service/navigation_service.dart';
@@ -9,17 +9,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 void main() {
-
   WidgetsFlutterBinding.ensureInitialized();
   setupLocator();
-  // FlavorConfig(
-  //   flavor: Flavor.dev,
-  //   color: Colors.green,
-  //   values: FlavorValues(
-  //     searchUrl: 'https://autocomplete.clearbit.com/v1/companies/suggest',
-  //     baseUrl: 'https://jsonplaceholder.typicode.com/users',
-  //   ),
-  // );
+  FlavorConfig(
+    flavor: Flavor.dev,
+    color: Colors.green,
+    values: FlavorValues(
+      searchUrl: 'https://autocomplete.clearbit.com/v1/companies/suggest',
+      baseUrl: 'https://jsonplaceholder.typicode.com/users',
+    ),
+  );
 
   runApp(
     const ProviderScope(child: MyApp()),
@@ -42,9 +41,9 @@ class MyApp extends StatelessWidget {
             812,
           ), // Get this sizes from your figma or adobe xd designs.
           builder: (context, child) {
-            return  MaterialApp(
+            return MaterialApp(
               title: 'Ready to Go',
-               navigatorKey: locator<NavigationService>().navigatorKey,
+              navigatorKey: locator<NavigationService>().navigatorKey,
               onGenerateRoute: Routing.generateRoute,
               home: const HomePage(),
             );

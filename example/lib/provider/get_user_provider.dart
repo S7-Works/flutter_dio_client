@@ -4,15 +4,16 @@ import 'package:example/model/user.dart';
 import 'package:example/utils/constants.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final userProviderLoader = StateProvider((ref) => false);
+final userProviderLoader = StateProvider((ref) => true);
+
 
 final getUserProvider = StateNotifierProvider<GetUser, List<User>>((ref) {
-  return GetUser(ref.read);
+  return GetUser(ref);
 });
 
 class GetUser extends StateNotifier<List<User>> {
-  final Reader read;
-  GetUser(this.read) : super([]) {
+  final Ref ref;
+  GetUser(this.ref) : super([]) {
     fetchUsers();
   }
 
@@ -21,7 +22,6 @@ class GetUser extends StateNotifier<List<User>> {
 
     var dioClient = DioClientNoAuthorization(myUrl);
 
-    read(userProviderLoader.notifier).state = true;
     List<User> users = [];
 
     Response? res;
@@ -31,7 +31,7 @@ class GetUser extends StateNotifier<List<User>> {
 
     users = list.map((e) => User.fromJson(e)).toList();
     state = users;
-    read(userProviderLoader.notifier).state = false;
+   ref.read(userProviderLoader.notifier).state = false;
   }
 
   update(int? id) {

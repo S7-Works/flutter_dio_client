@@ -7,12 +7,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final getCompanyProvider =
     StateNotifierProvider<GetCompanies, List<CompanyData>>((ref) {
-  return GetCompanies(ref.read);
+  return GetCompanies(ref);
 });
 
 class GetCompanies extends StateNotifier<List<CompanyData>> {
-  final Reader read;
-  GetCompanies(this.read) : super([]);
+  final Ref ref;
+  GetCompanies(this.ref) : super([]);
 
   fetchCompanies(String value) async {
     final searchUrl = "${Constants.searchUrl}?query=$value";
