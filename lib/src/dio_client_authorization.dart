@@ -6,14 +6,15 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class DioClientAuthorization {
   final Dio dio;
-  DioClientAuthorization(String baseUrl)
+  DioClientAuthorization(String baseUrl, {bool logData = true})
       : dio = Dio(
           BaseOptions(
             baseUrl: baseUrl,
           ),
         ) {
     dio.interceptors.add(Logging());
-    dio.interceptors.add(PrettyDioLogger());
+    dio.interceptors.add(PrettyDioLogger(
+        requestBody: logData, responseBody: logData, request: logData));
     dio.interceptors.add(
       RetryInterceptor(
         dio: dio,
@@ -86,6 +87,38 @@ class DioClientAuthorization {
   Future<Response> put(String path,
       {required Map data, required String authorization}) async {
     return await dio.put(path,
+        data: data,
+        options: Options(
+          headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': authorization,
+          },
+          followRedirects: false,
+          validateStatus: (status) {
+            return status! < 500;
+          },
+        ));
+  }
+
+  Future<Response> delete(String path, {required String authorization}) async {
+    return await dio.delete(path,
+        options: Options(
+          headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': authorization,
+          },
+          followRedirects: false,
+          validateStatus: (status) {
+            return status! < 500;
+          },
+        ));
+  }
+
+  Future<Response> patch(String path,
+      {required Map data, required String authorization}) async {
+    return await dio.patch(path,
         data: data,
         options: Options(
           headers: {

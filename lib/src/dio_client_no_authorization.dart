@@ -6,14 +6,15 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class DioClientNoAuthorization {
   final Dio dio;
-  DioClientNoAuthorization(String baseUrl)
+  DioClientNoAuthorization(String baseUrl, {bool logData = true})
       : dio = Dio(
           BaseOptions(
             baseUrl: baseUrl,
           ),
         ) {
     dio.interceptors.add(Logging());
-    dio.interceptors.add(PrettyDioLogger());
+    dio.interceptors.add(PrettyDioLogger(
+        requestBody: logData, responseBody: logData, request: logData));
     dio.interceptors.add(
       RetryInterceptor(
         dio: dio,
@@ -30,7 +31,7 @@ class DioClientNoAuthorization {
     );
   }
 
-  Future<Response> get(String path ) async {
+  Future<Response> get(String path) async {
     return await dio.get(path,
         options: Options(
           headers: {
@@ -44,7 +45,8 @@ class DioClientNoAuthorization {
         ));
   }
 
-  Future<Response> getWithPARAMS(String path,{required Map<String, String> queryParameters}) async {
+  Future<Response> getWithPARAMS(String path,
+      {required Map<String, String> queryParameters}) async {
     return await dio.get(
       path,
       options: Options(
@@ -79,6 +81,37 @@ class DioClientNoAuthorization {
 
   Future<Response> put(String path, {required Map data}) async {
     return await dio.put(path,
+        data: data,
+        options: Options(
+          headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+          },
+          followRedirects: false,
+          validateStatus: (status) {
+            return status! < 500;
+          },
+        ));
+  }
+
+  Future<Response> delete(
+    String path,
+  ) async {
+    return await dio.delete(path,
+        options: Options(
+          headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+          },
+          followRedirects: false,
+          validateStatus: (status) {
+            return status! < 500;
+          },
+        ));
+  }
+
+  Future<Response> patch(String path, {required Map data}) async {
+    return await dio.patch(path,
         data: data,
         options: Options(
           headers: {
